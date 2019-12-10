@@ -8,7 +8,7 @@ const args = require('commander');
 const path = require('path');
 const chalk = require('chalk');
 
-args.option('-i, --inputExcelFile <inputExcelFile>', '\'File Localtion\' which contains Schema definations', './example/advanced-sample.xlsx')
+args.option('-i, --inputExcelFile <inputExcelFile>', '\'File Localtion\' which contains Schema definations', './example/yxy2.xlsx')
   .option('-s, --sheetName <sheetName>', '\'Sheet Name\' which contains Schema definations', 'Schema')
   .option('-o, --outputDir <outputDir>', '\'Output Directory\' where JSON Schema files should be generated', './dist')
   .option('-e, --embedded <embedded>', '\'embedded\' If embedded Schema should be generated', false)
@@ -23,6 +23,6 @@ if (validationUtil(inputExcelFile, sheetName, outputDir)) {
   args.help();
 } else {
   console.log(`\n inputExcelFile:${chalk.green(inputExcelFile)} \n sheetName:${chalk.green(sheetName)} \n outputDir:${chalk.green(outputDir)}\n`);
-  generateJSONSchema(inputExcelFile, args.sheetName, path.join(outputDir, 'schema'), embedded);
-  generateJSONExample(inputExcelFile, args.sheetName, path.join(outputDir, 'example'));
+  generateJSONSchema(inputExcelFile, args.sheetName, outputDir, embedded);
+  // generateJSONExample(inputExcelFile, args.sheetName, path.join(outputDir, 'example'));
 }

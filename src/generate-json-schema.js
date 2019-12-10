@@ -60,8 +60,8 @@ function processProperties(value, modelInfo, embedded) {
         pattern: value2[0].Pattern,
         maximum: value2[0].Maximum,
         minimum: value2[0].Minimum,
-        maxLength: value2[0].MaxLength,
-        minLength: value2[0].MinLength,
+        maxLength: +value2[0].MaxLength,
+        minLength: +value2[0].MinLength,
         maxItems: value2[0].MaxItems,
         minItems: value2[0].MinItems,
       };
