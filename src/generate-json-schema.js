@@ -64,6 +64,8 @@ function processProperties(value, modelInfo, embedded) {
         minLength: +value2[0].MinLength,
         maxItems: value2[0].MaxItems,
         minItems: value2[0].MinItems,
+        exclusiveMinimum: value2[0].exclusiveMinimum,
+        exclusiveMaximum: value2[0].exclusiveMaximum,
       };
 
       // 如果maxLength、minLength为null时，去掉
