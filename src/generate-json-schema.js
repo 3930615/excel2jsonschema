@@ -49,7 +49,7 @@ function processProperties(value, modelInfo, embedded) {
       if (embedded && _.lowerCase(value2[0].ParentType) === 'object') {
         return processChildProperties(value2, modelInfo, embedded);
       }
-      return {
+      let result = {
         description: value2[0].Description,
         type: value2[0].ParentType ? (_.lowerCase(value2[0].ParentType) === 'array') ? 'array' : undefined : value2[0].Type,
         items: processArrayItems(value2[0], modelInfo, embedded),
@@ -65,6 +65,11 @@ function processProperties(value, modelInfo, embedded) {
         maxItems: value2[0].MaxItems,
         minItems: value2[0].MinItems,
       };
+
+      // 如果maxLength、minLength为null时，去掉
+      Number.isNaN(result.maxLength)? delete result.maxLength:'';
+      Number.isNaN(result.minLength)? delete result.minLength:'';
+      return result;
     })
     .value();
   return _.isEmpty(properties) ? undefined : properties;
