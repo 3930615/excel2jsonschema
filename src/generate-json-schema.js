@@ -58,23 +58,30 @@ function processProperties(value, modelInfo, embedded) {
         default: value2[0].Default,
         format: value2[0].Format,
         pattern: value2[0].Pattern,
-        maximum: value2[0].Maximum,
-        minimum: value2[0].Minimum,
+        maximum: +value2[0].Maximum,
+        minimum: +value2[0].Minimum,
         maxLength: +value2[0].MaxLength,
         minLength: +value2[0].MinLength,
-        maxItems: value2[0].MaxItems,
-        minItems: value2[0].MinItems,
-        exclusiveMinimum: value2[0].exclusiveMinimum,
-        exclusiveMaximum: value2[0].exclusiveMaximum,
+        maxItems: +value2[0].MaxItems,
+        minItems: +value2[0].MinItems,
+        exclusiveMinimum: +value2[0].exclusiveMinimum,
+        exclusiveMaximum: +value2[0].exclusiveMaximum,
       };
 
       // 如果maxLength、minLength为null时，去掉
-      Number.isNaN(result.maxLength)? delete result.maxLength:'';
-      Number.isNaN(result.minLength)? delete result.minLength:'';
+      // Number.isNaN(result.maxLength)? delete result.maxLength:'';
+      // Number.isNaN(result.minLength)? delete result.minLength:'';
+      deleteEmpty(result,['maxLength','minLength','maximum','minimum','exclusiveMinimum','exclusiveMaximum','maxItems','minItems'])
       return result;
     })
     .value();
   return _.isEmpty(properties) ? undefined : properties;
+
+  function deleteEmpty(obj, keyArr){
+    keyArr.forEach(item=>{
+      Number.isNaN(obj[item]) ? delete obj[item] : '';
+    })
+  }
 }
 
 function processChildProperties(value, modelInfo, embedded) {
