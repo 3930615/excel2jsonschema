@@ -9,7 +9,7 @@ const assert = require('assert');
 
 const primitiveTypes = ['boolean', 'integer', 'number', 'string'];
 jsonfile.spaces = 4;
-  // TODO: add validations
+// TODO: add validations
 export default (inputExcelFile, sheetName, outputDir, embedded) => {
   assert(inputExcelFile, 'Please provide Input Excel Sheet location');
   assert(sheetName, 'Please provide Sheet Name');
@@ -71,14 +71,26 @@ function processProperties(value, modelInfo, embedded) {
       // 如果maxLength、minLength为null时，去掉
       // Number.isNaN(result.maxLength)? delete result.maxLength:'';
       // Number.isNaN(result.minLength)? delete result.minLength:'';
-      deleteEmpty(result,['maxLength','minLength','maximum','minimum','exclusiveMinimum','exclusiveMaximum','maxItems','minItems'])
+      deleteEmpty(result, ['maxLength', 'minLength', 'maximum', 'minimum', 'exclusiveMinimum', 'exclusiveMaximum', 'maxItems', 'minItems'])
+
+      // default有值就留下，没值就删掉
+      if (result.default) { 
+        if (result.type === 'number' || result.type === 'integer') {
+          // default类型跟随type
+          result.default = +result.default
+        }
+      } else {
+        delete result.default
+      }
+
+
       return result;
     })
     .value();
   return _.isEmpty(properties) ? undefined : properties;
 
-  function deleteEmpty(obj, keyArr){
-    keyArr.forEach(item=>{
+  function deleteEmpty(obj, keyArr) {
+    keyArr.forEach(item => {
       Number.isNaN(obj[item]) ? delete obj[item] : '';
     })
   }
@@ -116,7 +128,9 @@ function processArrayItems(value, modelInfo, embedded) {
         required: processRequiredFields(modelInfo[value.Type]),
       };
     }
-    return { $ref: `${_.kebabCase(value.Type)}.json#` };
+    return {
+      $ref: `${_.kebabCase(value.Type)}.json#`
+    };
   }
   return undefined;
 }
