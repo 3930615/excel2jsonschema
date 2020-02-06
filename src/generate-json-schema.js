@@ -83,7 +83,12 @@ function processProperties(value, modelInfo, embedded) {
         delete result.default
       }
 
-
+      if(result.enum){  // 处理enum
+        if(result.type === 'integer'){
+          result.enum = result.enum.map(item=>+item)
+        }
+      }
+      
       return result;
     })
     .value();
